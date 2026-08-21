@@ -1,0 +1,18 @@
+{
+  "scenario_id": "normal",
+  "name": "Normal Market Conditions",
+  "description": "Standard baseline market environment with stable volatility and high liquidity.",
+  "initial_price": 100.0,
+  "volatility": 0.015,
+  "liquidity": 10000.0,
+  "volume": 1000.0,
+  "spread": 0.04,
+  "transaction_cost_bps": 1.0,
+  "shock_timestamp": null,
+  "volatility_multiplier": 1.0,
+  "liquidity_multiplier": 1.0,
+  "spread_multiplier": 1.0,
+  "random_seed": 42,
+  "total_steps": 60,
+  "step_duration_seconds": 1.0
+}
