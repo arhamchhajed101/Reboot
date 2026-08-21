@@ -1,93 +1,86 @@
-# Optimal Trade Execution — Backend & Market Simulator
+# Reboot Project
 
-A high-performance, simulated institutional trade-execution system built with **FastAPI**, **Pydantic v2**, **NumPy**, **SQLAlchemy 2.x**, **PostgreSQL**, and **WebSockets**.
+![Reboot Logo](frontend/assets/reboot_logo.jpg)
+
+## Overview
+
+**Reboot** is a modern, premium-grade web application designed for **real‑time market data visualization** and **trading strategy simulation**. Built with a focus on **rich aesthetics**, the UI features glassmorphism, dynamic animations, and a dark‑mode friendly design that delivers a premium user experience.
+
+## Key Features
+
+- **Live Market Data**: Pulls real‑time market feeds via WebSockets.
+- **Interactive Charts**: High‑performance, draggable, zoomable charts powered by Canvas.
+- **Strategy Playground**: Define, back‑test, and visualize custom strategies.
+- **Responsive Layout**: Optimized for desktop, tablet, and mobile devices using CSS container queries and flexible grid layouts.
+- **Dark / Light Themes**: Seamless theme toggling with CSS variables.
+- **Extensible Plugin System**: Easily add new data providers or chart types.
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** (v20 or later) – provides the runtime for the development server.
+- **npm** – package manager (comes with Node).
+
+### Installation
+
+```bash
+# Clone the repository (if you haven't already)
+git clone https://github.com/arhamchhajed101/Reboot.git
+cd Reboot
+
+# Install dependencies
+npm install
+```
+
+### Running Locally
+
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:3000`. Open this URL in your browser to explore the UI.
+
+## Project Structure
+
+```text
+├── app
+│   └── main.py                # Core backend service (Python)
+├── frontend/                  # All client‑side assets
+│   ├── index.html
+│   ├── style.css               # Global stylesheet with theme variables
+│   ├── app.js                  # Main JavaScript entry point
+│   └── assets/
+│       ├── logo.svg
+│       └── reboot_logo.jpg   # Logo used in the README
+├── demo_run.py                 # Example script to launch the full stack
+├── test_market_data.py         # Basic unit tests for market‑data utilities
+├── RECURZ_Execution_Engine_PRD.docx   # Project documentation (PDF export recommended)
+└── RECURZ_Execution_Engine_Tech_Stack.docx
+```
+
+## Development Guidelines
+
+- **Styling** – All UI components use **vanilla CSS** with a design‑system defined in `frontend/style.css`. Avoid Tailwind unless explicitly needed.
+- **JavaScript** – Use modern ES2023 syntax. Modules are imported via native `import` statements.
+- **Version Control** – Follow the conventional‑commits style for commit messages.
+- **Testing** – Run `npm test` for client‑side tests and `python -m unittest discover` for backend tests.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/your-feature`).
+3. Commit your changes with clear messages.
+4. Open a pull request describing the changes.
+
+> **Tip:** Ensure your code adheres to the existing design system and passes all linting rules (`npm run lint`).
+
+## License
+
+This project is licensed under the **MIT License** – see the `LICENSE` file for details.
 
 ---
 
-## 🏛 Architecture Overview
-
-```
-Frontend (React)
-   ↓ REST / WebSocket
-FastAPI Application (app.main)
-   ↓
-Run Service (app.services.run_service)
-   ├── Market Simulator (app.simulator.market)
-   ├── Execution Strategy Plugin Interface (app.execution)
-   ├── Fill Engine & Cost Model (app.simulator.fill)
-   └── Evaluation Engine (app.evaluation.engine)
-          ↓
-       PostgreSQL / SQLite Database
-```
-
----
-
-## 📐 Core Interfaces & Financial Formulas
-
-### 1. Quant Strategy Interface
-Custom execution strategies implement the `ExecutionStrategy` base class:
-```python
-class ExecutionStrategy(ABC):
-    @property
-    @abstractmethod
-    def name(self) -> str: pass
-
-    @abstractmethod
-    def decide(self, context: ExecutionContext) -> ExecutionDecision: pass
-```
-
-### 2. Transaction Cost & Market Impact Model
-Total Execution Cost ($) = `Spread Cost` + `Market Impact Cost` + `Transaction Fee`
-
-- **Spread Cost ($)**: `0.5 * (Ask Price - Bid Price) * Filled Quantity`
-- **Market Impact Cost ($)** (Almgren-Chriss square root participation model):
-  $$\text{Impact (bps)} = \gamma \times \sqrt{p} \times \frac{\sigma}{\sigma_0} \times \sqrt{\frac{L_0}{L}}$$
-  $$\text{Impact Cost } (\$) = \text{Impact (bps)} \times 10^{-4} \times S_{\text{mid}} \times Q_{\text{filled}}$$
-  where $p = \frac{Q_{\text{filled}}}{\text{Volume}}$, $\sigma$ is volatility, and $L$ is liquidity.
-- **Transaction Fee ($)**: $\text{transaction\_cost\_bps} \times 10^{-4} \times S_{\text{mid}} \times Q_{\text{filled}}$
-
-### 3. Implementation Shortfall (IS)
-Measures opportunity loss against instantaneous fill at arrival mid-price $P_{\text{arrival}}$:
-- **BUY**: $\text{IS } (\$) = (\text{Filled Notional} + \text{Unfilled Qty} \times P_{\text{final}}) - (Q_{\text{total}} \times P_{\text{arrival}})$
-- **SELL**: $\text{IS } (\$) = (Q_{\text{total}} \times P_{\text{arrival}}) - (\text{Filled Notional} + \text{Unfilled Qty} \times P_{\text{final}})$
-- **IS (bps)**: $\frac{\text{IS } (\$)}{Q_{\text{total}} \times P_{\text{arrival}}} \times 10,000$
-
----
-
-## 🚀 Quick Start (Local Setup)
-
-### 1. Install Dependencies
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-### 2. Run Test Suite
-```bash
-pytest -v
-```
-
-### 3. Start Local API Server
-```bash
-uvicorn app.main:app --reload --port 8000
-```
-- API Docs: `http://localhost:8000/docs`
-- Health Check: `http://localhost:8000/api/health`
-
-### 4. Docker Compose Setup (with PostgreSQL)
-```bash
-docker-compose up --build
-```
-
----
-
-## 📡 API Endpoints
-
-- `GET  /api/health` — System status
-- `GET  /api/scenarios` — List available market scenarios (`normal`, `volatility_shock`, `liquidity_shock`, `combined_shock`)
-- `POST /api/runs` — Execute execution simulation run
-- `GET  /api/runs/{run_id}` — Get run status & metrics
-- `GET  /api/runs/{run_id}/events` — Get step-by-step market ticks, decisions, and fills
-- `POST /api/runs/compare` — Perform apples-to-apples benchmark comparison across strategies (`twap`, `volume_aware`, `adaptive`) under identical random seed & market path
-- `WS   /api/runs/{run_id}/stream` — Real-time event streaming over WebSocket
+*Prepared by the Antigravity AI assistant on 2026‑08‑22.*
