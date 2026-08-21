@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reboot - Algorithmic Execution Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-[#141210] min-h-screen font-sans antialiased relative bg-transparent">
+
+  <!-- Decorative Background Highlights (Coffee Cream Shades) -->
+  <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-[#f4ebe1]">
+    <div class="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] rounded-full bg-[#e8d5c4] blur-[100px]"></div>
+    <div class="absolute top-[20%] right-[0%] w-[50%] h-[50%] rounded-full bg-[#dcc4ab] blur-[120px]"></div>
+    <div class="absolute -bottom-[10%] left-[20%] w-[60%] h-[60%] rounded-full bg-[#e8d5c4] blur-[100px]"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-[#f4ebe1]/80 backdrop-blur-xl border-b border-[#dcc4ab] sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <!-- Replaced colored logo with a sleek black CSS box for the Reboot E, matching the new theme -->
+        <div class="w-10 h-10 rounded bg-[#141210] flex items-center justify-center font-bold text-[#f4ebe1] shadow-md text-xl">
+          R
+        </div>
+        <h1 class="text-xl font-bold text-[#141210] tracking-tight">
+          Reboot
+        </h1>
+      </div>
+      <nav class="hidden md:flex space-x-8">
+        <a href="#setup" class="text-sm font-bold text-[#141210] hover:text-[#5a4d41] transition-colors">Setup Order</a>
+        <a href="#simulation" class="text-sm font-bold text-[#141210] hover:text-[#5a4d41] transition-colors">Live Simulation</a>
+        <a href="#benchmark" class="text-sm font-bold text-[#141210] hover:text-[#5a4d41] transition-colors">Compare Strategies</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 sm:px-6 py-10 space-y-12 max-w-7xl">
+    
+    <!-- Hero Title -->
+    <div class="text-center space-y-3">
+      <h2 class="text-3xl sm:text-4xl font-black tracking-tight text-[#141210]">Reboot: Algorithmic Trade Execution</h2>
+      <p class="text-[#4a4036] max-w-3xl mx-auto text-base sm:text-lg font-medium">Distribute a large buy/sell order across multiple time intervals. Minimise execution cost and market impact while dynamically adapting to sudden changes in market volatility and liquidity.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-8">
+      
+      <!-- Left Column: Inputs -->
+      <div class="lg:col-span-4 space-y-6">
+        
+        <!-- Order Panel -->
+        <div id="setup" class="bg-[#141210] rounded-2xl p-6 border border-[#2a2622] shadow-2xl">
+          <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-[#2a2622]">
+            <div class="p-2 rounded bg-[#2a2622] text-[#f4ebe1]">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <h3 class="text-lg font-bold text-[#f4ebe1]">1. Order Details</h3>
+          </div>
+
+          <form id="order-form" class="space-y-5">
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Asset -->
+              <div class="space-y-1">
+                <label class="text-sm font-semibold text-[#a39688]">Asset Symbol</label>
+                <input type="text" name="symbol" value="ASSET-A" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all" />
+                <p class="text-xs text-[#70655b]">The generic asset to trade.</p>
+              </div>
+              <!-- Action -->
+              <div class="space-y-1">
+                <label class="text-sm font-semibold text-[#a39688]">Order Side</label>
+                <select name="side" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all">
+                  <option value="BUY">Buy</option>
+                  <option value="SELL">Sell</option>
+                </select>
+                <p class="text-xs text-[#70655b]">Direction of the trade.</p>
+              </div>
+            </div>
+            
+            <!-- Amount -->
+            <div class="space-y-1">
+              <label class="text-sm font-semibold text-[#a39688]">Total Units</label>
+              <input type="number" name="quantity" value="10000" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all" />
+              <p class="text-xs text-[#70655b]">The total large volume that must be fully distributed.</p>
+            </div>
+            
+            <!-- Strategy -->
+            <div class="space-y-1">
+              <label class="text-sm font-semibold text-[#a39688]">Execution Strategy</label>
+              <select name="strategy" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all">
+                <option value="AdaptiveStrategy">Adaptive (Dynamic)</option>
+                <option value="TWAPStrategy">TWAP (Time-Weighted)</option>
+                <option value="VolumeAwareStrategy">Volume-Aware (Market Participation)</option>
+              </select>
+              <p class="text-xs text-[#70655b]">The algorithm used to slice the order across time intervals.</p>
+            </div>
+          </form>
+        </div>
+
+        <!-- Advanced Config Panel -->
+        <div class="bg-[#141210] rounded-2xl p-6 border border-[#2a2622] shadow-2xl">
+          <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-[#2a2622]">
+            <div class="p-2 rounded bg-[#2a2622] text-[#f4ebe1]">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+            </div>
+            <h3 class="text-lg font-bold text-[#f4ebe1]">2. Tuning Parameters</h3>
+          </div>
+
+          <form id="config-form" class="space-y-5">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label class="text-sm font-semibold text-[#a39688]">Time Interval (s)</label>
+                <input type="number" name="interval_seconds" value="60" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all" />
+                <p class="text-xs text-[#70655b]">Duration of each execution slice.</p>
+              </div>
+              <div class="space-y-1">
+                <label class="text-sm font-semibold text-[#a39688]">Max Part (%)</label>
+                <input type="number" name="max_participation" value="20" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all" />
+                <p class="text-xs text-[#70655b]">Max allowed % of market volume to take.</p>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label class="text-sm font-semibold text-[#a39688]">Volatility Limit</label>
+                <input type="number" step="0.01" name="volatility_threshold" value="0.02" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all" />
+                <p class="text-xs text-[#70655b]">Pace trades carefully if market swings exceed this.</p>
+              </div>
+              <div class="space-y-1">
+                <label class="text-sm font-semibold text-[#a39688]">Liquidity Limit</label>
+                <input type="number" step="0.01" name="liquidity_threshold" value="0.1" class="w-full bg-[#1f1b18] border border-[#36302b] text-[#f4ebe1] rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-[#dcc4ab] transition-all" />
+                <p class="text-xs text-[#70655b]">Required market depth before trading aggressively.</p>
+              </div>
+            </div>
+            
+            <div class="pt-4 mt-2">
+              <button type="button" id="btn-simulate" class="w-full bg-[#f4ebe1] hover:bg-[#e8d5c4] text-[#141210] font-bold py-3 px-4 rounded-xl transition-all shadow-lg">
+                Start Simulation
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Outputs & Charts -->
+      <div class="lg:col-span-8 space-y-6">
+        
+        <!-- Live Execution Feed -->
+        <div id="simulation" class="bg-[#141210] rounded-2xl p-6 border border-[#2a2622] shadow-2xl h-full flex flex-col">
+          <div class="flex flex-wrap items-center justify-between mb-6 gap-4">
+            <div class="flex items-center space-x-3">
+              <div class="p-2 rounded bg-[#2a2622] text-[#f4ebe1]">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+              </div>
+              <h3 class="text-lg font-bold text-[#f4ebe1]">Live Execution Trajectory</h3>
+            </div>
+            
+            <div class="flex items-center space-x-2 bg-[#1f1b18] px-3 py-1.5 rounded border border-[#36302b]" id="status-indicator">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#dcc4ab] animate-pulse"></span>
+              <span class="text-sm font-medium text-[#f4ebe1]" id="status-text">Engine Ready</span>
+            </div>
+          </div>
+          
+          <!-- Key Metrics Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-[#1f1b18] border border-[#36302b] rounded-xl p-4">
+              <div class="text-xs font-semibold text-[#a39688] uppercase tracking-wider mb-1">Total Filled</div>
+              <div class="text-2xl font-black text-[#f4ebe1]" id="metric-filled">0.00</div>
+              <div class="text-xs text-[#70655b] mt-1">Units successfully executed</div>
+            </div>
+            <div class="bg-[#1f1b18] border border-[#36302b] rounded-xl p-4">
+              <div class="text-xs font-semibold text-[#a39688] uppercase tracking-wider mb-1">Avg Price</div>
+              <div class="text-2xl font-black text-[#f4ebe1]" id="metric-price">0.00</div>
+              <div class="text-xs text-[#70655b] mt-1">Average execution price</div>
+            </div>
+            <div class="bg-[#1f1b18] border border-[#36302b] rounded-xl p-4">
+              <div class="text-xs font-semibold text-[#a39688] uppercase tracking-wider mb-1">Shortfall</div>
+              <div class="text-2xl font-black text-[#f4ebe1]" id="metric-is">0.0 bps</div>
+              <div class="text-xs text-[#70655b] mt-1">Difference from arrival price</div>
+            </div>
+            <div class="bg-[#1f1b18] border border-[#36302b] rounded-xl p-4">
+              <div class="text-xs font-semibold text-[#a39688] uppercase tracking-wider mb-1">Impact Cost</div>
+              <div class="text-2xl font-black text-[#f4ebe1]" id="metric-cost">0.00</div>
+              <div class="text-xs text-[#70655b] mt-1">Estimated loss due to our trades</div>
+            </div>
+          </div>
+
+          <!-- Event Log -->
+          <div id="event-log-container" class="mb-6 hidden">
+            <h4 class="text-sm font-semibold text-[#a39688] mb-2">Market Condition Updates</h4>
+            <div class="bg-[#2a2622] border border-[#36302b] rounded-lg p-3 text-sm text-[#f4ebe1] flex items-center space-x-2">
+              <svg class="w-4 h-4 text-[#dcc4ab]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span id="latest-event">Engine running...</span>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="space-y-6 flex-1">
+            <div class="bg-[#1f1b18] border border-[#36302b] rounded-xl p-4">
+              <h4 class="text-sm font-semibold text-[#f4ebe1] mb-2">Order Completion Schedule</h4>
+              <div class="relative h-48 w-full">
+                <canvas id="trajectoryChart"></canvas>
+              </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+               <div class="bg-[#1f1b18] border border-[#36302b] rounded-xl p-4">
+                <h4 class="text-sm font-semibold text-[#f4ebe1] mb-2">Market Volume Taken (%)</h4>
+                <div class="relative h-40 w-full">
+                  <canvas id="participationChart"></canvas>
+                </div>
+              </div>
+              <div class="bg-[#1f1b18] border border-[#36302b] rounded-xl p-4">
+                <h4 class="text-sm font-semibold text-[#f4ebe1] mb-2">Execution Price</h4>
+                <div class="relative h-40 w-full">
+                  <canvas id="priceChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Benchmark Section -->
+    <section id="benchmark" class="bg-[#141210] rounded-2xl p-6 md:p-8 border border-[#2a2622] shadow-2xl">
+      <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 space-y-4 md:space-y-0">
+        <div>
+          <div class="flex items-center space-x-3 mb-2">
+            <div class="p-2 rounded bg-[#2a2622] text-[#f4ebe1]">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold text-[#f4ebe1]">Strategy Benchmark</h3>
+          </div>
+          <p class="text-sm text-[#a39688]">Compare how different algorithms perform when market conditions change (volatility spikes, liquidity drops).</p>
+        </div>
+        <button id="btn-benchmark" class="bg-[#141210] border-2 border-[#f4ebe1] text-[#f4ebe1] hover:bg-[#1f1b18] font-bold py-2.5 px-6 rounded-xl transition-all">
+          Run Comparison
+        </button>
+      </div>
+      
+      <div class="overflow-x-auto rounded-xl border border-[#2a2622]">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-[#1f1b18] text-[#f4ebe1] text-sm border-b border-[#36302b]">
+              <th class="py-4 px-6 font-semibold">Execution Strategy</th>
+              <th class="py-4 px-6 font-semibold">Completion Rate<br/><span class="text-xs font-normal text-[#a39688]">Order fulfilled?</span></th>
+              <th class="py-4 px-6 font-semibold">Slippage<br/><span class="text-xs font-normal text-[#a39688]">Delay cost (bps)</span></th>
+              <th class="py-4 px-6 font-semibold">Implementation Shortfall<br/><span class="text-xs font-normal text-[#a39688]">Total cost (bps)</span></th>
+              <th class="py-4 px-6 font-semibold">Total Market Impact<br/><span class="text-xs font-normal text-[#a39688]">Value lost</span></th>
+            </tr>
+          </thead>
+          <tbody id="benchmark-body" class="bg-[#141210]">
+            <!-- Simulated rows will be injected here -->
+            <tr>
+              <td class="py-12 px-6 text-center text-[#70655b] italic" colspan="5">
+                Click "Run Comparison" to simulate TWAP, Volume-Aware, and Adaptive strategies.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-16 py-8 border-t border-[#dcc4ab] bg-[#f4ebe1]">
+    <div class="container mx-auto px-6 text-center text-sm text-[#70655b] font-bold">
+      Reboot Execution Engine &copy; 2026. Made for intelligent trading.
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
