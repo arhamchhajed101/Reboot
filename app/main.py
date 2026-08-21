@@ -1,6 +1,8 @@
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.routes import router as api_router
 from app.api.websocket import router as ws_router
@@ -22,7 +24,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Enable CORS for React frontend (Person 3)
+# Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -35,11 +37,8 @@ app.add_middleware(
 app.include_router(api_router, prefix=settings.API_V1_STR)
 app.include_router(ws_router, prefix=settings.API_V1_STR)
 
+# Serve Frontend Dashboard
+frontend_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
+if os.path.exists(frontend_path):
+    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
-@app.get("/", tags=["System"])
-async def root():
-    return {
-        "message": "Optimal Trade Execution Simulator Backend Active",
-        "docs": "/docs",
-        "health": f"{settings.API_V1_STR}/health",
-    }
