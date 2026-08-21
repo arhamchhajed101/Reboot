@@ -1,0 +1,18 @@
+{
+  "scenario_id": "combined_shock",
+  "name": "Combined Volatility & Liquidity Shock",
+  "description": "Simultaneous volatility spike (4x) and liquidity freeze (80% drop) representing extreme stress conditions.",
+  "initial_price": 100.0,
+  "volatility": 0.015,
+  "liquidity": 10000.0,
+  "volume": 1000.0,
+  "spread": 0.04,
+  "transaction_cost_bps": 1.0,
+  "shock_timestamp": 25.0,
+  "volatility_multiplier": 4.0,
+  "liquidity_multiplier": 0.2,
+  "spread_multiplier": 3.5,
+  "random_seed": 42,
+  "total_steps": 60,
+  "step_duration_seconds": 1.0
+}

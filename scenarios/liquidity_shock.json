@@ -1,0 +1,18 @@
+{
+  "scenario_id": "liquidity_shock",
+  "name": "Liquidity Crunch Event",
+  "description": "Severe market liquidity drop (75% reduction) mid-way through execution window, reducing market depth.",
+  "initial_price": 100.0,
+  "volatility": 0.015,
+  "liquidity": 10000.0,
+  "volume": 1000.0,
+  "spread": 0.04,
+  "transaction_cost_bps": 1.0,
+  "shock_timestamp": 25.0,
+  "volatility_multiplier": 1.2,
+  "liquidity_multiplier": 0.25,
+  "spread_multiplier": 2.0,
+  "random_seed": 42,
+  "total_steps": 60,
+  "step_duration_seconds": 1.0
+}
