@@ -80,7 +80,3 @@ Contributions are welcome! Please follow these steps:
 ## License
 
 This project is licensed under the **MIT License** – see the `LICENSE` file for details.
-
----
-
-*Prepared by the Antigravity AI assistant on 2026‑08‑22.*
